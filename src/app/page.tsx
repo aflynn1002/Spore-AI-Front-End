@@ -2,6 +2,7 @@
 
 import { useState, useRef } from "react";
 import { useRouter } from "next/navigation";
+import { dot } from "node:test/reporters";
 
 export default function Home() {
   const fileInputRef = useRef<HTMLInputElement | null>(null);
@@ -19,11 +20,17 @@ export default function Home() {
     const file = event.target.files[0];
     const formData = new FormData();
     formData.append("file", file);
+
+    const API_ROUTE = process.env.API_GATEWAY;
   
+    if (!API_ROUTE) {
+      throw new Error("API_ROUTE is not defined");
+    }
+
     try {
       console.log("Uploading file:", file.name);
   
-      const response = await fetch("http://localhost:8080/classify", {
+      const response = await fetch(API_ROUTE, {
         method: "POST",
         body: formData,
       });
