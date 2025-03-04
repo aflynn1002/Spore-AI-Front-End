@@ -2,11 +2,10 @@
 
 import { useState, useRef } from "react";
 import { useRouter } from "next/navigation";
-import { dot } from "node:test/reporters";
 
 export default function Home() {
   const fileInputRef = useRef<HTMLInputElement | null>(null);
-  const [fadeTransition, setFadeTransition] = useState(false);
+  const [fadeTransition] = useState(false);
   const router = useRouter(); // Next.js router instance
 
   const handleFileChange = async (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -20,7 +19,7 @@ export default function Home() {
     const file = event.target.files[0];
     const formData = new FormData();
     formData.append("file", file);
-
+  
     const API_ROUTE = process.env.API_GATEWAY;
   
     if (!API_ROUTE) {
@@ -97,3 +96,4 @@ export default function Home() {
     </div>
   );
 }
+
